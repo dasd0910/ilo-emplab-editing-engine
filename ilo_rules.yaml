@@ -1,0 +1,796 @@
+# ILO House Style Rules — v1 (Phase 2a)
+# Source: ILO house style manual, sixth edition (Rev 5), Geneva 2020
+#
+# RULE TYPES
+#   regex_replace : find/replace using a regular expression. Auto-applied.
+#   literal_replace : plain find/replace (no regex). Auto-applied.
+#   regex_flag    : find with regex but only flag for review (don't auto-change).
+#   structural    : requires Python logic beyond find/replace. Implemented in rules_engine.py.
+#
+# FIELDS
+#   id             : unique stable identifier used in tracked-change comments
+#   category       : grouping (spelling / punctuation / abbreviations / numbers / usage_list / ...)
+#   type           : one of the types above
+#   pattern        : regex or literal string to find
+#   replacement    : what to replace it with (for *_replace types)
+#   flags          : regex flags (e.g. IGNORECASE)
+#   description    : human-readable explanation shown to the editor in Word comments
+#   manual_ref     : section number in the ILO style manual for citation
+#   exceptions     : strings or regexes that should NOT trigger this rule
+#   severity       : auto | suggest (suggest = lower-confidence, reviewer should decide)
+
+# =============================================================================
+# SECTION A — SPELLING (manual §2, Appendix)
+# =============================================================================
+rules:
+
+  # -ise → -ize family. ILO follows OED first entry (-ize).
+  # Exceptions: words where "-ise" is intrinsic (not the suffix), and British-
+  # spelling proper nouns/titles where the original spelling must be preserved.
+  - id: SPELL_001_organise
+    category: spelling
+    type: regex_replace
+    pattern: '\borganis(e|es|ed|ing|ation|ational|er|ers)\b'
+    replacement: 'organiz\1'
+    flags: [IGNORECASE]
+    description: "ILO uses -ize not -ise spelling (OED first entry)."
+    manual_ref: "2.1"
+    exceptions:
+      - "Organisation for Economic Co-operation"  # OECD keeps original
+      - "International Organisation of Employers"  # IOE keeps "-s-"
+      - "Right to Organise"                        # Convention title
+    severity: auto
+
+  - id: SPELL_002_recognise
+    category: spelling
+    type: regex_replace
+    pattern: '\brecognis(e|es|ed|ing|able|ably)\b'
+    replacement: 'recogniz\1'
+    flags: [IGNORECASE]
+    description: "ILO uses -ize not -ise spelling."
+    manual_ref: "2.1"
+    severity: auto
+
+  - id: SPELL_003_realise
+    category: spelling
+    type: regex_replace
+    pattern: '\brealis(e|es|ed|ing|ation)\b'
+    replacement: 'realiz\1'
+    flags: [IGNORECASE]
+    description: "ILO uses -ize not -ise spelling."
+    manual_ref: "2.1"
+    severity: auto
+
+  - id: SPELL_004_emphasise
+    category: spelling
+    type: regex_replace
+    pattern: '\bemphasis(e|es|ed|ing)\b'
+    replacement: 'emphasiz\1'
+    flags: [IGNORECASE]
+    description: "ILO uses -ize not -ise spelling."
+    manual_ref: "2.1"
+    severity: auto
+
+  - id: SPELL_005_utilise
+    category: spelling
+    type: regex_replace
+    pattern: '\butilis(e|es|ed|ing|ation)\b'
+    replacement: 'utiliz\1'
+    flags: [IGNORECASE]
+    description: "ILO uses -ize not -ise spelling."
+    manual_ref: "2.1"
+    severity: auto
+
+  - id: SPELL_006_prioritise
+    category: spelling
+    type: regex_replace
+    pattern: '\bprioritis(e|es|ed|ing|ation)\b'
+    replacement: 'prioritiz\1'
+    flags: [IGNORECASE]
+    description: "ILO uses -ize not -ise spelling."
+    manual_ref: "2.1"
+    severity: auto
+
+  - id: SPELL_007_characterise
+    category: spelling
+    type: regex_replace
+    pattern: '\bcharacteris(e|es|ed|ing|ation)\b'
+    replacement: 'characteriz\1'
+    flags: [IGNORECASE]
+    description: "ILO uses -ize not -ise spelling."
+    manual_ref: "2.1"
+    severity: auto
+
+  - id: SPELL_008_standardise
+    category: spelling
+    type: regex_replace
+    pattern: '\bstandardis(e|es|ed|ing|ation)\b'
+    replacement: 'standardiz\1'
+    flags: [IGNORECASE]
+    description: "ILO uses -ize not -ise spelling."
+    manual_ref: "2.1"
+    severity: auto
+
+  - id: SPELL_009_focussed
+    category: spelling
+    type: regex_replace
+    pattern: '\bfocuss(ed|ing)\b'
+    replacement: 'focus\1'
+    flags: [IGNORECASE]
+    description: "ILO uses 'focused'/'focusing', not double-s."
+    manual_ref: "Appendix: focused"
+    severity: auto
+
+  - id: SPELL_010_advisor
+    category: spelling
+    type: regex_replace
+    pattern: '\badvisor(s)?\b'
+    replacement: 'adviser\1'
+    description: "ILO uses 'adviser' not 'advisor'."
+    manual_ref: "Appendix: adviser"
+    severity: auto
+
+  - id: SPELL_011_healthcare_space
+    category: spelling
+    type: regex_replace
+    pattern: '\bhealth care\b'
+    replacement: 'healthcare'
+    flags: [IGNORECASE]
+    description: "ILO uses closed 'healthcare' as noun and adjective."
+    manual_ref: "Appendix: healthcare"
+    severity: auto
+
+  - id: SPELL_012_learnt
+    category: spelling
+    type: regex_replace
+    pattern: '\blearnt\b'
+    replacement: 'learned'
+    flags: [IGNORECASE]
+    description: "ILO uses 'learned' not 'learnt'."
+    manual_ref: "Appendix: learned"
+    severity: auto
+
+  - id: SPELL_013_color_amer
+    category: spelling
+    type: regex_replace
+    pattern: '\bcolor(s|ed|ing|ful)?\b'
+    replacement: 'colour\1'
+    description: "ILO uses British spelling (OED): 'colour' not 'color'."
+    manual_ref: "2.1"
+    exceptions:
+      - "United States Department of Labor"
+      - "Monthly Labor Review"
+    severity: auto
+
+  - id: SPELL_014_labor_amer
+    category: spelling
+    type: regex_replace
+    pattern: '\blabor\b'
+    replacement: 'labour'
+    description: "ILO uses British spelling: 'labour' not 'labor'."
+    manual_ref: "2.1"
+    exceptions:
+      - "US Department of Labor"
+      - "Monthly Labor Review"
+      - "US Bureau of Labor Statistics"
+    severity: auto
+
+  - id: SPELL_015_center_amer
+    category: spelling
+    type: regex_replace
+    pattern: '\bcenter(s|ed|ing)?\b'
+    replacement: 'centre\1'
+    description: "ILO uses British spelling: 'centre' not 'center'."
+    manual_ref: "2.1"
+    exceptions:
+      - "Center for"  # US institution names
+    severity: auto
+
+  - id: SPELL_016_program_amer
+    category: spelling
+    type: regex_replace
+    pattern: '\bprogram(s)?\b'
+    replacement: 'programme\1'
+    description: "ILO uses 'programme' (British) except for computer programs."
+    manual_ref: "2.1"
+    exceptions:
+      - "computer program"
+      - "software program"
+    severity: suggest   # software sense is legit; reviewer should confirm
+
+# =============================================================================
+# SECTION B — LATIN ABBREVIATIONS (manual §4.6)
+# =============================================================================
+# In running text, Latin abbreviations should be replaced with English.
+# They remain permissible in tables and references where space is limited.
+
+  - id: ABBR_001_eg
+    category: abbreviations
+    type: regex_replace
+    pattern: '\be\.g\.,?\s*'
+    replacement: 'for example, '
+    description: "Use 'for example' instead of 'e.g.' in running text (manual §4.6)."
+    manual_ref: "4.6"
+    severity: auto
+
+  - id: ABBR_002_ie
+    category: abbreviations
+    type: regex_replace
+    pattern: '\bi\.e\.,?\s*'
+    replacement: 'that is, '
+    description: "Use 'that is' instead of 'i.e.' in running text (manual §4.6)."
+    manual_ref: "4.6"
+    severity: auto
+
+  - id: ABBR_003_etc
+    category: abbreviations
+    type: regex_replace
+    pattern: ',?\s*\betc\.(?=\s|$|\))'
+    replacement: ', and so on'
+    description: "Use 'and so on' instead of 'etc.' in running text (manual §4.6)."
+    manual_ref: "4.6"
+    severity: auto
+
+  - id: ABBR_004_viz
+    category: abbreviations
+    type: regex_replace
+    pattern: '\bviz\.,?\s*'
+    replacement: 'namely, '
+    description: "Use 'namely' instead of 'viz.' in running text (manual §4.6)."
+    manual_ref: "4.6"
+    severity: auto
+
+  - id: ABBR_005_mr_stop
+    category: abbreviations
+    type: regex_replace
+    pattern: '\bMr\.\s'
+    replacement: 'Mr '
+    description: "Contractions (Mr, Ms, Mrs, Dr) take no full stop in ILO style."
+    manual_ref: "4.3.3"
+    severity: auto
+
+  - id: ABBR_006_ms_stop
+    category: abbreviations
+    type: regex_replace
+    pattern: '\bMs\.\s'
+    replacement: 'Ms '
+    description: "Contractions (Mr, Ms, Mrs, Dr) take no full stop."
+    manual_ref: "4.3.3"
+    severity: auto
+
+  - id: ABBR_007_dr_stop
+    category: abbreviations
+    type: regex_replace
+    pattern: '\bDr\.\s'
+    replacement: 'Dr '
+    description: "Contractions take no full stop."
+    manual_ref: "4.3.3"
+    severity: auto
+
+# =============================================================================
+# SECTION C — NUMBERS, DATES, TIMES (manual §7)
+# =============================================================================
+
+  - id: NUM_001_percent_word
+    category: numbers
+    type: regex_replace
+    pattern: '\bpercent\b'
+    replacement: 'per cent'
+    description: "ILO uses two words: 'per cent' in running text."
+    manual_ref: "Appendix: per cent"
+    severity: auto
+
+  - id: NUM_002_percentage_sign_in_text
+    category: numbers
+    type: regex_flag
+    pattern: '(\d+(?:\.\d+)?)\s*%(?!\))'
+    description: "'%' belongs in tables and graphs; use 'per cent' in running text. Reviewer should confirm context."
+    manual_ref: "Appendix: per cent"
+    severity: suggest
+
+  - id: NUM_003_ordinal_superscript
+    category: numbers
+    type: regex_replace
+    pattern: '(\d+)(st|nd|rd|th)'
+    replacement: '\1\2'  # strip superscript, if any (handled in code)
+    description: "Ordinal suffixes should NOT be superscripted (e.g., '123rd Session', not 123^rd)."
+    manual_ref: "7.5"
+    severity: auto
+    note: "Actually handled in Python (rules_engine.py) — strips <w:vertAlign w:val='superscript'/> from runs containing ordinal suffixes. Regex here is placeholder."
+
+  - id: NUM_004_date_ordinal
+    category: numbers
+    type: regex_replace
+    pattern: '\b(\d{1,2})(st|nd|rd|th)\s+(January|February|March|April|May|June|July|August|September|October|November|December)\b'
+    replacement: '\1 \3'
+    description: "Dates use cardinal numbers: '8 February 2019', not '8th February 2019' (manual §7.3)."
+    manual_ref: "7.3"
+    severity: auto
+
+  - id: NUM_005_month_day_reversed
+    category: numbers
+    type: regex_flag
+    pattern: '\b(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2})(?:st|nd|rd|th)?,\s*(\d{4})\b'
+    description: "ILO date format is 'day month year' (8 February 2019), not 'February 8, 2019'. Review US-style dates."
+    manual_ref: "7.3"
+    severity: suggest
+
+  - id: NUM_006_time_9_00
+    category: numbers
+    type: regex_replace
+    pattern: '\b(\d{1,2})\.00\s*(a\.m\.|p\.m\.)'
+    replacement: '\1 \2'
+    description: "On-the-hour times drop '.00': use '9 a.m.' not '9.00 a.m.' (manual §7.3)."
+    manual_ref: "7.3"
+    severity: auto
+
+  - id: NUM_007_decade_apostrophe
+    category: numbers
+    type: regex_replace
+    pattern: "\\b(\\d{4})'s\\b"
+    replacement: '\1s'
+    description: "Decades take no apostrophe: '1990s', not '1990's' (manual §7.3)."
+    manual_ref: "7.3"
+    severity: auto
+
+  - id: NUM_008_negative_hyphen
+    category: numbers
+    type: regex_replace
+    pattern: '(^|\s)-(\d+(?:\.\d+)?\s*(?:per cent|%))'
+    replacement: '\1−\2'   # true minus sign U+2212
+    description: "Negative numbers use minus sign (−), not hyphen (manual §7.1.5)."
+    manual_ref: "7.1.5"
+    severity: auto
+
+  - id: NUM_009_number_range_hyphen
+    category: numbers
+    type: regex_replace
+    pattern: '\b(\d+)\s*-\s*(\d+)\b'
+    replacement: '\1–\2'   # en-dash U+2013
+    description: "Number ranges use en-rule (–), not hyphen (-): e.g., '1998–2006' (manual §7.2)."
+    manual_ref: "7.2"
+    severity: auto
+
+  - id: NUM_010_year_range_hyphen
+    category: numbers
+    type: regex_replace
+    pattern: '\b(19\d{2}|20\d{2})-(\d{2,4})\b'
+    replacement: '\1–\2'
+    description: "Year ranges use en-rule (–): '2024–25', not '2024-25' (manual §7.2)."
+    manual_ref: "7.2"
+    severity: auto
+
+# =============================================================================
+# SECTION D — PUNCTUATION (manual §3)
+# =============================================================================
+
+  - id: PUNCT_001_double_hyphen_dash
+    category: punctuation
+    type: regex_replace
+    pattern: '\s--\s'
+    replacement: ' – '   # en-dash with spaces for parenthetical
+    description: "Parenthetical dashes use spaced en-rule (– ), not double hyphens (manual §3.4.1)."
+    manual_ref: "3.4.1"
+    severity: auto
+
+  - id: PUNCT_002_em_dash_to_en
+    category: punctuation
+    type: regex_flag
+    pattern: '—'
+    description: "Em rules (—) are reserved for specific uses (3-em rules in references). Review whether an en-rule would be more appropriate."
+    manual_ref: "3.4.2"
+    severity: suggest
+
+  - id: PUNCT_003_work_life
+    category: punctuation
+    type: regex_replace
+    pattern: '\bwork-life balance\b'
+    replacement: 'work–life balance'
+    flags: [IGNORECASE]
+    description: "Compound expressions denoting 'between' use en-rule: 'work–life balance' (manual §3.4.1)."
+    manual_ref: "3.4.1"
+    severity: auto
+
+  - id: PUNCT_004_south_south_hyphen
+    category: punctuation
+    type: regex_replace
+    pattern: '\bSouth-South\b'
+    replacement: 'South–South'
+    description: "Uses en-rule, not hyphen (Appendix: South–South cooperation)."
+    manual_ref: "Appendix: South–South cooperation"
+    severity: auto
+
+  - id: PUNCT_005_north_south_hyphen
+    category: punctuation
+    type: regex_replace
+    pattern: '\bNorth-South\b'
+    replacement: 'North–South'
+    description: "Uses en-rule, not hyphen."
+    manual_ref: "5.4"
+    severity: auto
+
+  - id: PUNCT_006_double_space
+    category: punctuation
+    type: regex_replace
+    pattern: '  +'
+    replacement: ' '
+    description: "Single spacing between sentences and words."
+    manual_ref: "General formatting"
+    severity: auto
+
+  - id: PUNCT_007_straight_to_curly_quote
+    category: punctuation
+    type: regex_flag
+    pattern: '"[^"]*"'
+    description: "Prefer curly/typographic quotes (“ ”) over straight quotes for published output."
+    manual_ref: "3.8"
+    severity: suggest
+
+  - id: PUNCT_008_space_before_punct
+    category: punctuation
+    type: regex_replace
+    pattern: '\s+([,.;:!?])'
+    replacement: '\1'
+    description: "No space before punctuation marks (common in French; strip for English text)."
+    manual_ref: "3.9"
+    severity: auto
+
+# =============================================================================
+# SECTION E — ILO USAGE LIST: specific terminology (Appendix)
+# =============================================================================
+
+  - id: USAGE_001_covid
+    category: usage_list
+    type: regex_replace
+    pattern: '\b(Covid|covid|COVID19|COVID 19)\b'
+    replacement: 'COVID-19'
+    description: "Always 'COVID-19' — upper case, with hyphen (Appendix)."
+    manual_ref: "Appendix: COVID-19"
+    severity: auto
+
+  - id: USAGE_002_email
+    category: usage_list
+    type: regex_replace
+    pattern: '\be-mail(s)?\b'
+    replacement: 'email\1'
+    flags: [IGNORECASE]
+    description: "'email' is closed; 'e-' takes hyphen everywhere else except email (Appendix: e-)."
+    manual_ref: "Appendix: e-"
+    severity: auto
+
+  - id: USAGE_003_policymaker
+    category: usage_list
+    type: regex_replace
+    pattern: '\bpolicy[ -]maker(s)?\b'
+    replacement: 'policymaker\1'
+    flags: [IGNORECASE]
+    description: "ILO uses closed 'policymaker' and 'policymaking' (Appendix)."
+    manual_ref: "Appendix: policymaking"
+    severity: auto
+
+  - id: USAGE_004_policymaking
+    category: usage_list
+    type: regex_replace
+    pattern: '\bpolicy[ -]making\b'
+    replacement: 'policymaking'
+    flags: [IGNORECASE]
+    description: "ILO uses closed 'policymaking'."
+    manual_ref: "Appendix: policymaking"
+    severity: auto
+
+  - id: USAGE_005_decision_maker_hyphen
+    category: usage_list
+    type: regex_replace
+    pattern: '\bdecision maker(s)?\b'
+    replacement: 'decision-maker\1'
+    flags: [IGNORECASE]
+    description: "ILO uses hyphenated 'decision-maker' and 'decision-making' (Appendix)."
+    manual_ref: "Appendix: decision-makers"
+    severity: auto
+
+  - id: USAGE_006_decision_making_hyphen
+    category: usage_list
+    type: regex_replace
+    pattern: '\bdecision making\b'
+    replacement: 'decision-making'
+    flags: [IGNORECASE]
+    description: "ILO uses hyphenated 'decision-making'."
+    manual_ref: "Appendix: decision-making"
+    severity: auto
+
+  - id: USAGE_007_capacity_building
+    category: usage_list
+    type: regex_replace
+    pattern: '\bcapacity building\b'
+    replacement: 'capacity-building'
+    flags: [IGNORECASE]
+    description: "Hyphenated as noun and adjective (Appendix)."
+    manual_ref: "Appendix: capacity-building"
+    severity: auto
+
+  - id: USAGE_008_awareness_raising
+    category: usage_list
+    type: regex_replace
+    pattern: '\bawareness raising\b'
+    replacement: 'awareness-raising'
+    flags: [IGNORECASE]
+    description: "Hyphenated (Appendix)."
+    manual_ref: "Appendix: awareness-raising"
+    severity: auto
+
+  - id: USAGE_009_standard_setting
+    category: usage_list
+    type: regex_replace
+    pattern: '\bstandard setting\b'
+    replacement: 'standard-setting'
+    flags: [IGNORECASE]
+    description: "Hyphenated (Appendix)."
+    manual_ref: "Appendix: standard-setting"
+    severity: auto
+
+  - id: USAGE_010_socio_economic
+    category: usage_list
+    type: regex_replace
+    pattern: '\bsocio economic\b|\bsocioeconomic\b'
+    replacement: 'socio-economic'
+    flags: [IGNORECASE]
+    description: "Hyphenated (Appendix)."
+    manual_ref: "Appendix: socio-economic"
+    severity: auto
+
+  - id: USAGE_011_internet_lower
+    category: usage_list
+    type: regex_replace
+    pattern: '\bInternet\b'
+    replacement: 'internet'
+    description: "Lower case (Appendix: internet)."
+    manual_ref: "Appendix: internet"
+    severity: auto
+
+  - id: USAGE_012_web_lower
+    category: usage_list
+    type: regex_replace
+    pattern: '\bthe Web\b'
+    replacement: 'the web'
+    description: "Lower case (Appendix: web)."
+    manual_ref: "Appendix: web"
+    severity: auto
+
+  - id: USAGE_013_mne_declaration
+    category: usage_list
+    type: regex_replace
+    pattern: '\bMulti-?National Enterprises Declaration\b|\bMNE declaration\b'
+    replacement: 'MNE Declaration'
+    description: "Official short form of the Tripartite Declaration of Principles concerning MNEs."
+    manual_ref: "Appendix: declarations of the ILO"
+    severity: auto
+
+  - id: USAGE_014_sme_terms
+    category: usage_list
+    type: regex_replace
+    pattern: '\bsmall and medium enterprises?\b'
+    replacement: 'small and medium-sized enterprises'
+    flags: [IGNORECASE]
+    description: "ILO uses 'small and medium-sized enterprises' (not 'small and medium enterprises') (Appendix)."
+    manual_ref: "Appendix: small and medium-sized enterprises"
+    severity: auto
+
+  - id: USAGE_015_road_map
+    category: usage_list
+    type: regex_replace
+    pattern: '\broadmap(s)?\b'
+    replacement: 'road map\1'
+    flags: [IGNORECASE]
+    description: "Two words (Appendix: road map)."
+    manual_ref: "Appendix: road map"
+    severity: auto
+
+  - id: USAGE_016_time_frame
+    category: usage_list
+    type: regex_replace
+    pattern: '\btimeframe(s)?\b'
+    replacement: 'time frame\1'
+    flags: [IGNORECASE]
+    description: "Two words (Appendix: time frame)."
+    manual_ref: "Appendix: time frame"
+    severity: auto
+
+  - id: USAGE_017_member_states
+    category: usage_list
+    type: regex_replace
+    pattern: '\bmember states?\b'
+    replacement: 'Member State\1'   # note: singular/plural 's' captured via regex would need care; simplified here
+    description: "'Member State' takes initial capitals in ILO/UN/EU context (Appendix)."
+    manual_ref: "Appendix: Member State(s)"
+    severity: suggest   # case-sensitive context — flag for review
+    note: "Only when referring to specific organisational members, not generic use."
+
+  - id: USAGE_018_decent_work_agenda
+    category: usage_list
+    type: regex_replace
+    pattern: '\bdecent work agenda\b'
+    replacement: 'Decent Work Agenda'
+    description: "Capitalise 'Decent Work Agenda' (Appendix)."
+    manual_ref: "Appendix: Decent Work Agenda"
+    severity: auto
+
+  - id: USAGE_019_decent_work_lower
+    category: usage_list
+    type: regex_flag
+    pattern: '\bDecent Work\b'
+    description: "'decent work' is lower case when used generically; only capitalise in 'Decent Work Agenda' and specific programme names (Appendix)."
+    manual_ref: "Appendix: decent work"
+    severity: suggest
+
+  - id: USAGE_020_dwcp
+    category: usage_list
+    type: regex_replace
+    pattern: '\bdecent work country programme(s)?\b'
+    replacement: 'Decent Work Country Programme\1'
+    flags: [IGNORECASE]
+    description: "Initial capitals — this is a specific ILO programme name (Appendix)."
+    manual_ref: "Appendix: Decent Work Country Programme(s)"
+    severity: auto
+
+# =============================================================================
+# SECTION F — COUNTRY / TERRITORY DESIGNATIONS (manual §8)
+# Sensitive — ILOTERM is authoritative. These are the most common corrections.
+# =============================================================================
+
+  - id: CTRY_001_kyiv
+    category: countries
+    type: regex_replace
+    pattern: '\bKiev\b'
+    replacement: 'Kyiv'
+    description: "ILO uses 'Kyiv' not 'Kiev' (Appendix)."
+    manual_ref: "Appendix: Kyiv"
+    severity: auto
+
+  - id: CTRY_002_turkiye
+    category: countries
+    type: regex_replace
+    pattern: '\bTurkey\b'
+    replacement: 'Türkiye'
+    description: "ILO uses 'Türkiye' not 'Turkey' (Appendix)."
+    manual_ref: "Appendix: Türkiye"
+    severity: auto
+
+  - id: CTRY_003_laos
+    category: countries
+    type: regex_replace
+    pattern: '\bLaos\b'
+    replacement: "Lao People's Democratic Republic"
+    description: "Use 'Lao People's Democratic Republic' not 'Laos' (manual §8.3)."
+    manual_ref: "8.3"
+    severity: auto
+
+  - id: CTRY_004_bolivia
+    category: countries
+    type: regex_flag
+    pattern: '\bBolivia\b(?! \(Plurinational)'
+    description: "Use 'Plurinational State of Bolivia' or 'Bolivia (Plurinational State of)' on first reference (manual §8.3)."
+    manual_ref: "8.3"
+    severity: suggest
+
+  - id: CTRY_005_iran
+    category: countries
+    type: regex_flag
+    pattern: '\bIran\b(?! \(Islamic)'
+    description: "Use 'Islamic Republic of Iran' or 'Iran (Islamic Republic of)' (manual §8.3)."
+    manual_ref: "8.3"
+    severity: suggest
+
+  - id: CTRY_006_russia
+    category: countries
+    type: regex_replace
+    pattern: '\bRussia\b'
+    replacement: 'the Russian Federation'
+    description: "Use 'the Russian Federation' not 'Russia' (manual §8.3)."
+    manual_ref: "8.3"
+    severity: suggest
+
+  - id: CTRY_007_syria
+    category: countries
+    type: regex_replace
+    pattern: '\bSyria\b'
+    replacement: 'the Syrian Arab Republic'
+    description: "Use 'the Syrian Arab Republic' (manual §8.3)."
+    manual_ref: "8.3"
+    severity: suggest
+
+  - id: CTRY_008_tanzania
+    category: countries
+    type: regex_flag
+    pattern: '\bTanzania\b(?! \(United)'
+    description: "Use 'United Republic of Tanzania' or 'Tanzania (United Republic of)' (manual §8.3)."
+    manual_ref: "8.3"
+    severity: suggest
+
+  - id: CTRY_009_south_korea
+    category: countries
+    type: regex_replace
+    pattern: '\bSouth Korea\b'
+    replacement: 'the Republic of Korea'
+    description: "Use 'the Republic of Korea' not 'South Korea' (manual §8.3)."
+    manual_ref: "8.3"
+    severity: auto
+
+  - id: CTRY_010_uk_us_noun
+    category: countries
+    type: regex_flag
+    pattern: '\b(UK|US)\b'
+    description: "'UK'/'US' are only used adjectivally; when used as a noun, write out 'the United Kingdom' or 'the United States' (manual §4.2)."
+    manual_ref: "4.2"
+    severity: suggest
+
+# =============================================================================
+# SECTION G — STRUCTURAL RULES (implemented in Python, not regex)
+# =============================================================================
+# These require analysis of the document's structure or accumulated context.
+# Listed here as a specification for rules_engine.py to implement.
+
+structural_rules:
+
+  - id: STRUCT_001_numbers_one_to_ten
+    manual_ref: "7.1.1"
+    description: >
+      Numbers 1–10 in running text must be spelled out (one, two, ..., ten).
+      Exceptions: percentages, units of measurement, ages, times of day,
+      dates, page/figure/table references, sums of money, and — importantly —
+      when two or more numbers occur in the same sentence and any is >10,
+      all use numerals.
+    severity: suggest
+
+  - id: STRUCT_002_first_use_expansion
+    manual_ref: "4.1"
+    description: >
+      Abbreviations used three or more times in a document should be expanded
+      on first use: 'International Labour Organization (ILO)'. Detect first
+      occurrence of each known acronym and verify it's spelled out.
+      Exceptions: universally known abbreviations (ILO, HIV, AIDS, PhD, DNA,
+      UN, EU) need not be expanded.
+    severity: suggest
+
+  - id: STRUCT_003_the_with_initialisms
+    manual_ref: "4.5.1"
+    description: >
+      Initialisms (spelled out letter-by-letter: ILO, UN, ITUC) take the definite
+      article ('the ILO'); acronyms pronounced as words (UNESCO, WIPO, UNICEF)
+      do NOT take 'the'. Flag violations.
+    severity: suggest
+
+  - id: STRUCT_004_heading_capitalization
+    manual_ref: "5.2"
+    description: >
+      In titles/chapter heads/subtitles: only first letter of title, subtitle,
+      and headings is capitalised (sentence case), plus normally-capitalised
+      words. Detect heading paragraphs (Heading 1/2/3 styles) and flag
+      headline-case headings.
+    severity: suggest
+
+  - id: STRUCT_005_indefinite_article_pronunciation
+    manual_ref: "4.5.1"
+    description: >
+      'a' vs 'an' must match pronunciation of the following word. For initialisms,
+      this depends on the letter sound: 'a UN report' (pronounced 'yoo'), but
+      'an OECD survey' (pronounced 'oh'). Detect mismatches.
+    severity: suggest
+
+  - id: STRUCT_006_tracked_currency_first_use
+    manual_ref: "4.9"
+    description: >
+      Currencies must be spelled out on first reference ('Argentine pesos'),
+      then short forms thereafter ('pesos'). ISO codes only in tables/graphs.
+      CHF always as 'CHF5,000'. Currency + figure uses no space for US$, €, £.
+    severity: suggest
+
+# =============================================================================
+# NOTES
+# =============================================================================
+# - The regex patterns deliberately err on the side of safety. Ambiguous cases
+#   are flagged ('suggest' severity) rather than auto-corrected.
+# - Rules must NEVER change direct quotations, publication titles, or proper
+#   names of external organisations. The rule engine must exclude these regions
+#   (detected by Word style or presence of quotation marks) before applying rules.
+# - Rule IDs are stable; once published, do not re-use an ID for a different rule.
+#   Add new IDs with incremented numbers.

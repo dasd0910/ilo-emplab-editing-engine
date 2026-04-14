@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body class="{{ body_class }}">
+
+<!-- ============================================================ -->
+<!-- COVER PAGE                                                   -->
+<!-- ============================================================ -->
+<div class="cover">
+    <div class="cover-header">
+        <img class="ilo-logo-img" src="ilo_logo.png" alt="International Labour Organization">
+        <div class="brief-pill">▶ ILO brief</div>
+    </div>
+
+    <div class="cover-title-block">
+        <div class="cover-title">
+            <span class="triangle">▶</span>{{ brief_type }}
+        </div>
+    </div>
+
+    <div class="cover-divider"></div>
+
+    <div class="cover-date">{{ date_label }}</div>
+
+    <h1 class="doc-title">{{ title }}</h1>
+    {% if subtitle %}<p class="doc-subtitle">{{ subtitle }}</p>{% endif %}
+    <div class="title-underline"></div>
+
+    {% if key_points %}
+    <div class="key-points-box">
+        <div class="key-points-header">Key points</div>
+        <div class="key-points-body">
+            <ul>
+                {% for kp in key_points %}
+                <li>{{ kp }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- ============================================================ -->
+<!-- BODY                                                         -->
+<!-- ============================================================ -->
+<main class="doc-body">
+    {% for block in blocks %}
+        {% if block.kind == "h2" %}
+            <h2><span class="h2-triangle">▶</span>{{ block.text }}</h2>
+        {% elif block.kind == "h3" %}
+            <h3>{{ block.text }}</h3>
+        {% elif block.kind == "bullet" %}
+            <ul class="triangle-bullets"><li>{{ block.text }}</li></ul>
+        {% else %}
+            <p>{{ block.text }}</p>
+        {% endif %}
+    {% endfor %}
+</main>
+
+</body>
+</html>

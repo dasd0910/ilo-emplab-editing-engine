@@ -1,0 +1,264 @@
+/* =========================================================================
+   ILO BRIEF — print styles matched to the real ILO Policy Brief template.
+   ========================================================================= */
+
+/* ---------- Fonts (bundled in emplab_app/assets/ for deploy) ------------- */
+@font-face { font-family: "Noto Sans"; src: url("NotoSans-Regular.ttf") format("truetype"); font-weight: 400; }
+@font-face { font-family: "Noto Sans"; src: url("NotoSans-Light.ttf") format("truetype"); font-weight: 300; }
+@font-face { font-family: "Noto Sans"; src: url("NotoSans-SemiBold.ttf") format("truetype"); font-weight: 600; }
+@font-face { font-family: "Noto Sans"; src: url("NotoSans-Bold.ttf") format("truetype"); font-weight: 700; }
+@font-face { font-family: "Overpass"; src: url("Overpass-Regular.ttf") format("truetype"); font-weight: 400; }
+@font-face { font-family: "Overpass"; src: url("Overpass-Light.ttf") format("truetype"); font-weight: 300; }
+@font-face { font-family: "Overpass"; src: url("Overpass-Bold.ttf") format("truetype"); font-weight: 700; }
+
+/* ---------- ILO brand palette -------------------------------------------- */
+:root {
+    --ilo-navy:        #1A3D82;   /* deep ILO blue (header band) */
+    --ilo-blue:        #1A5FB4;   /* secondary blue (titles, h2) */
+    --ilo-blue-bright: #0066CC;   /* primary text blue */
+    --ilo-yellow:      #FFC800;   /* accent yellow (triangles, divider) */
+    --ilo-red:         #E8002A;   /* red subheads */
+    --ilo-teal:        #D9E8F4;   /* key-points box background */
+    --ilo-grey:        #5a5a5a;
+    --body-text:       #222;
+}
+
+/* ---------- Page --------------------------------------------------------- */
+@page {
+    size: A4;
+    margin: 14mm 15mm 16mm 15mm;
+
+    @top-left {
+        content: "▶ ILO brief";
+        font-family: "Overpass", sans-serif;
+        font-size: 8.5pt;
+        color: var(--ilo-navy);
+        font-weight: 700;
+    }
+    @top-right {
+        content: counter(page, decimal-leading-zero);
+        font-family: "Noto Sans", sans-serif;
+        font-size: 9pt;
+        color: var(--ilo-navy);
+    }
+}
+
+/* First page has no running header — the cover provides branding */
+@page :first {
+    margin: 0 0 16mm 0;
+    @top-left { content: ""; }
+    @top-right { content: ""; }
+}
+
+/* ---------- Reset + base typography ------------------------------------- */
+html, body {
+    font-family: "Noto Sans", Arial, sans-serif;
+    font-size: 9.5pt;
+    line-height: 1.45;
+    color: var(--body-text);
+    margin: 0; padding: 0;
+}
+
+p {
+    margin: 0 0 0.55em 0;
+    text-align: justify;
+    hyphens: auto;
+    color: var(--ilo-blue-bright);
+}
+
+/* =========================================================================
+   COVER (first page)
+   ========================================================================= */
+.cover { padding: 0 15mm; }
+
+.cover-header {
+    background: var(--ilo-navy);
+    margin: 0 -15mm 7mm -15mm;
+    padding: 9mm 15mm 9mm 15mm;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.ilo-logo-img {
+    height: 14mm;
+    width: auto;
+}
+.brief-pill {
+    background: var(--ilo-blue-bright);
+    color: white;
+    font-family: "Overpass", sans-serif;
+    font-size: 9pt;
+    font-weight: 700;
+    padding: 1.5mm 4mm 1.5mm 4mm;
+    letter-spacing: 0.3pt;
+    border-radius: 1pt;
+}
+
+.cover-title-block {
+    padding-top: 2mm;
+    padding-bottom: 6mm;
+}
+.cover-title {
+    font-family: "Overpass", sans-serif;
+    font-size: 34pt;
+    font-weight: 700;
+    color: var(--ilo-blue);
+    line-height: 1;
+    margin: 0;
+}
+.cover-title .triangle {
+    color: var(--ilo-yellow);
+    margin-right: 3mm;
+    font-size: 28pt;
+    vertical-align: 1pt;
+}
+
+.cover-divider {
+    height: 1.8mm;
+    background: var(--ilo-yellow);
+    margin: 0 -15mm 6mm -15mm;
+}
+
+.cover-date {
+    font-family: "Noto Sans", sans-serif;
+    font-size: 9pt;
+    color: var(--body-text);
+    margin-bottom: 3mm;
+    letter-spacing: 0.3pt;
+}
+
+.doc-title {
+    font-family: "Noto Sans", sans-serif;
+    font-size: 16pt;
+    font-weight: 700;
+    color: var(--ilo-blue);
+    line-height: 1.2;
+    margin: 0 0 2mm 0;
+}
+.doc-subtitle {
+    font-family: "Noto Sans", sans-serif;
+    font-size: 13pt;
+    font-weight: 400;
+    color: var(--ilo-blue);
+    line-height: 1.3;
+    margin: 0 0 3mm 0;
+}
+.title-underline {
+    height: 0.5pt;
+    background: var(--ilo-yellow);
+    margin-bottom: 7mm;
+}
+
+/* ---------- Key points box ---------------------------------------------- */
+.key-points-box {
+    background: var(--ilo-teal);
+    margin: 0 0 8mm 0;
+    page-break-inside: avoid;
+}
+.key-points-header {
+    background: var(--ilo-yellow);
+    color: var(--ilo-navy);
+    font-family: "Overpass", sans-serif;
+    font-weight: 700;
+    font-size: 9.5pt;
+    padding: 1.5mm 4mm;
+}
+.key-points-body {
+    padding: 3mm 4mm 3mm 4mm;
+    column-count: 2;
+    column-gap: 6mm;
+}
+.key-points-body ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.key-points-body li {
+    position: relative;
+    padding-left: 5mm;
+    margin-bottom: 2mm;
+    color: var(--ilo-blue-bright);
+    font-size: 8.5pt;
+    line-height: 1.35;
+    break-inside: avoid;
+}
+.key-points-body li::before {
+    content: "▶";
+    color: var(--ilo-yellow);
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 8pt;
+}
+
+/* =========================================================================
+   BODY
+   ========================================================================= */
+.doc-body {
+    padding: 0 15mm;
+    column-count: 2;
+    column-gap: 7mm;
+    column-rule: none;
+}
+.doc-body h2 {
+    column-span: all;
+    font-family: "Overpass", sans-serif;
+    font-weight: 700;
+    font-size: 16pt;
+    color: var(--ilo-blue);
+    margin: 6mm 0 2mm 0;
+    padding-bottom: 1mm;
+    border-bottom: 0.5pt solid var(--ilo-blue);
+    page-break-after: avoid;
+}
+.doc-body h2 .h2-triangle {
+    color: var(--ilo-red);
+    margin-right: 2mm;
+}
+.doc-body h3 {
+    font-family: "Noto Sans", sans-serif;
+    font-weight: 700;
+    font-size: 11pt;
+    color: var(--ilo-red);
+    margin: 4mm 0 1.5mm 0;
+    page-break-after: avoid;
+}
+
+.doc-body ul.triangle-bullets {
+    list-style: none;
+    padding-left: 4mm;
+    margin: 0 0 2mm 0;
+}
+.doc-body ul.triangle-bullets li {
+    position: relative;
+    padding-left: 4mm;
+    margin-bottom: 1mm;
+    color: var(--ilo-blue-bright);
+}
+.doc-body ul.triangle-bullets li::before {
+    content: "▶";
+    color: var(--ilo-yellow);
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 7.5pt;
+}
+
+/* =========================================================================
+   Per-brief variants
+   ========================================================================= */
+
+/* GENERIC BRIEF — single-column body for longer-form writing */
+body.generic-brief .doc-body {
+    column-count: 1;
+}
+
+/* FACT SHEET — single column, slightly different palette */
+body.fact-sheet .doc-body { column-count: 1; }
+body.fact-sheet .cover-title { color: var(--ilo-blue-bright); }
+body.fact-sheet .cover-header { background: var(--ilo-blue-bright); }
+body.fact-sheet .doc-body h2 { color: var(--ilo-blue-bright); }
+body.fact-sheet .doc-body h3 { color: var(--ilo-navy); }

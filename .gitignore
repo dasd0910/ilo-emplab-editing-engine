@@ -1,0 +1,32 @@
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Secrets — NEVER commit API keys or passwords
+.env
+*.env.local
+.streamlit/secrets.toml
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local runtime output
+output/
+tmp/
+*.log
+
+# User-uploaded/generated content — never commit real documents
+*_edited.docx
+*_policy_brief.*
+*_generic_brief.*
+*_fact_sheet.*
