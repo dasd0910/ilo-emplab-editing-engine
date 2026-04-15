@@ -21,6 +21,7 @@ from docx_writer import apply_tracked_changes_with_comments
 from llm_editor import llm_find_edits, load_api_keys, LLMError
 from idml_writer import build_idml, get_template_path
 from pdf_writer import build_pdf
+from structural_rules import run_all_structural
 
 
 # -----------------------------------------------------------------------------
@@ -195,6 +196,13 @@ if run_clicked:
 
     with st.spinner("Finding style-rule matches..."):
         rule_edits = find_edits(paragraphs, rules, include_suggestions=include_suggestions)
+
+    with st.spinner("Applying structural rules (acronyms, headings, articles)..."):
+        struct_edits = run_all_structural(doc, paragraphs)
+        if not include_suggestions:
+            # Structural rules are 'suggest' severity; only surface if user opted in
+            struct_edits = []
+        rule_edits = rule_edits + struct_edits
 
     # Phase 3 — LLM grammar/flow pass
     llm_edits = []

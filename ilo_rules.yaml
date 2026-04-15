@@ -724,6 +724,265 @@ rules:
     severity: suggest
 
 # =============================================================================
+# SECTION E2 — Extended ILO usage list (Appendix)
+# Added in v2 after analysing the Ethiopia + Benin golden pairs.
+# =============================================================================
+
+  - id: USAGE_030_above_mentioned
+    category: usage_list
+    type: regex_replace
+    pattern: '\babove[- ]mentioned\b'
+    replacement: 'above-mentioned'
+    flags: [IGNORECASE]
+    description: "Hyphenated (Appendix: above-mentioned)."
+    manual_ref: "Appendix: above-mentioned"
+    severity: auto
+
+  - id: USAGE_031_aforementioned_space
+    category: usage_list
+    type: regex_replace
+    pattern: '\bafore\s+mentioned\b'
+    replacement: 'aforementioned'
+    flags: [IGNORECASE]
+    description: "Single word: 'aforementioned'."
+    manual_ref: "Appendix: aforementioned"
+    severity: auto
+
+  - id: USAGE_032_adviser_plural
+    category: usage_list
+    type: regex_replace
+    pattern: '\badvisors\b'
+    replacement: 'advisers'
+    flags: [IGNORECASE]
+    description: "Plural of adviser: 'advisers' (not advisors)."
+    manual_ref: "Appendix: adviser"
+    severity: auto
+
+  - id: USAGE_033_bricks
+    category: usage_list
+    type: regex_replace
+    pattern: '\bBrics\b'
+    replacement: 'BRICS'
+    description: "BRICS is always upper case (Appendix)."
+    manual_ref: "Appendix: BRICS"
+    severity: auto
+
+  - id: USAGE_034_cross_cutting
+    category: usage_list
+    type: regex_replace
+    pattern: '\bcross cutting\b'
+    replacement: 'cross-cutting'
+    flags: [IGNORECASE]
+    description: "Hyphenated (Appendix: cross-cutting)."
+    manual_ref: "Appendix: cross-cutting"
+    severity: auto
+
+  - id: USAGE_035_day_care_noun
+    category: usage_list
+    type: regex_replace
+    pattern: '\bday care\b'
+    replacement: 'day care'
+    flags: [IGNORECASE]
+    description: "Noun form 'day care' (two words); adjective is 'day-care' (hyphenated)."
+    manual_ref: "Appendix: day care"
+    severity: suggest
+
+  - id: USAGE_036_dockworker
+    category: usage_list
+    type: regex_replace
+    pattern: '\bdock worker(s)?\b'
+    replacement: 'dockworker\1'
+    flags: [IGNORECASE]
+    description: "'dockworker' is one word (Appendix)."
+    manual_ref: "Appendix: dockworker"
+    severity: auto
+
+  - id: USAGE_037_eurozone
+    category: usage_list
+    type: regex_replace
+    pattern: '\bEuro zone\b|\bEuro-zone\b'
+    replacement: 'eurozone'
+    description: "'eurozone' one word, lower case (Appendix)."
+    manual_ref: "Appendix: eurozone"
+    severity: auto
+
+  - id: USAGE_038_federation
+    category: usage_list
+    type: regex_replace
+    pattern: '\bfirefighter(s)?\b'
+    replacement: 'firefighter\1'
+    flags: [IGNORECASE]
+    description: "Not hyphenated (Appendix)."
+    manual_ref: "Appendix: firefighter"
+    severity: auto
+
+  - id: USAGE_039_fora
+    category: usage_list
+    type: regex_replace
+    pattern: '\bfora\b'
+    replacement: 'forums'
+    flags: [IGNORECASE]
+    description: "ILO uses 'forums' not 'fora' (Appendix)."
+    manual_ref: "Appendix: forum"
+    severity: auto
+
+  - id: USAGE_040_formulae
+    category: usage_list
+    type: regex_replace
+    pattern: '\bformulae\b'
+    replacement: 'formulas'
+    flags: [IGNORECASE]
+    description: "ILO uses 'formulas' not 'formulae' (Appendix)."
+    manual_ref: "Appendix: formula"
+    severity: auto
+
+  - id: USAGE_041_g7_g20
+    category: usage_list
+    type: regex_replace
+    pattern: '\bG[-]?(7|8|10|20)\b'
+    replacement: 'G\1'
+    description: "No hyphen or space in G7/G8/G20 (Appendix)."
+    manual_ref: "Appendix: G7, G20"
+    severity: auto
+
+  - id: USAGE_042_full_time_hyphen
+    category: usage_list
+    type: regex_replace
+    pattern: '\bfull time(\s+(?:job|work|position|employment|worker|staff|role))\b'
+    replacement: 'full-time\1'
+    flags: [IGNORECASE]
+    description: "'full-time' is hyphenated as adjective (Appendix)."
+    manual_ref: "Appendix: full-time"
+    severity: auto
+
+  - id: USAGE_043_part_time_hyphen
+    category: usage_list
+    type: regex_replace
+    pattern: '\bpart time(\s+(?:job|work|position|employment|worker|staff|role))\b'
+    replacement: 'part-time\1'
+    flags: [IGNORECASE]
+    description: "'part-time' is hyphenated (Appendix)."
+    manual_ref: "Appendix: part-time"
+    severity: auto
+
+  - id: USAGE_044_knowledge_sharing
+    category: usage_list
+    type: regex_replace
+    pattern: '\bknowledge sharing\b'
+    replacement: 'knowledge-sharing'
+    flags: [IGNORECASE]
+    description: "Hyphenated (Appendix)."
+    manual_ref: "Appendix: knowledge-sharing"
+    severity: auto
+
+  - id: USAGE_045_information_sharing
+    category: usage_list
+    type: regex_replace
+    pattern: '\binformation sharing\b'
+    replacement: 'information-sharing'
+    flags: [IGNORECASE]
+    description: "Hyphenated (Appendix)."
+    manual_ref: "Appendix: information-sharing"
+    severity: auto
+
+  - id: USAGE_046_long_term
+    category: usage_list
+    type: regex_replace
+    pattern: '\blong term(\s+(?:plan|goal|strategy|objective|solution|impact|effect|outcome|trend))\b'
+    replacement: 'long-term\1'
+    flags: [IGNORECASE]
+    description: "'long-term' is hyphenated as adjective (Appendix)."
+    manual_ref: "Appendix: long-term"
+    severity: auto
+
+  - id: USAGE_047_short_term
+    category: usage_list
+    type: regex_replace
+    pattern: '\bshort term(\s+(?:plan|goal|strategy|objective|solution|impact|effect|outcome|trend))\b'
+    replacement: 'short-term\1'
+    flags: [IGNORECASE]
+    description: "'short-term' is hyphenated as adjective (Appendix)."
+    manual_ref: "Appendix: short-term"
+    severity: auto
+
+  - id: USAGE_048_microenterprise
+    category: usage_list
+    type: regex_replace
+    pattern: '\bmicro-enterprise(s)?\b'
+    replacement: 'microenterprise\1'
+    flags: [IGNORECASE]
+    description: "Single word: 'microenterprise' (Appendix)."
+    manual_ref: "Appendix: microenterprise"
+    severity: auto
+
+  - id: USAGE_049_non_governmental
+    category: usage_list
+    type: regex_replace
+    pattern: '\bnongovernmental\b'
+    replacement: 'non-governmental'
+    flags: [IGNORECASE]
+    description: "Hyphenated: 'non-governmental' (Appendix)."
+    manual_ref: "Appendix: non-governmental organization"
+    severity: auto
+
+  - id: USAGE_050_turkiye
+    category: usage_list
+    type: regex_replace
+    pattern: '\bTurkiye\b'
+    replacement: 'Türkiye'
+    description: "Use 'Türkiye' with the ü diacritic (Appendix)."
+    manual_ref: "Appendix: Türkiye"
+    severity: auto
+
+# =============================================================================
+# SECTION H — References / citations (ILO §11 — Chicago style)
+# =============================================================================
+
+  - id: REF_001_accessed_date
+    category: references
+    type: regex_replace
+    pattern: '\b(A|a)cessed\b'
+    replacement: '\1ccessed'
+    description: "Typo fix: 'acessed' → 'accessed'."
+    manual_ref: "11"
+    severity: auto
+
+  - id: REF_002_ibid_italicize
+    category: references
+    type: regex_flag
+    pattern: '\bibid\.?\b'
+    flags: [IGNORECASE]
+    description: "Chicago style: 'ibid.' should be avoided in modern usage; use a short citation instead (ILO §11)."
+    manual_ref: "11"
+    severity: suggest
+
+  - id: REF_003_op_cit
+    category: references
+    type: regex_flag
+    pattern: '\bop\.?\s*cit\.?\b'
+    flags: [IGNORECASE]
+    description: "Latin 'op. cit.' is discouraged. Use short-title citation per Chicago/ILO §11."
+    manual_ref: "11"
+    severity: suggest
+
+  - id: REF_004_url_http
+    category: references
+    type: regex_replace
+    pattern: '\bhttp://(?!localhost)'
+    replacement: 'https://'
+    description: "Use HTTPS URLs in citations where available."
+    manual_ref: "11"
+    severity: suggest
+
+  - id: REF_005_et_al_italic
+    category: references
+    type: regex_flag
+    pattern: '\bet al\b'
+    description: "'et al.' takes a full stop and is traditionally italicised in references. Verify both."
+    manual_ref: "11"
+    severity: suggest
+
+# =============================================================================
 # SECTION G — STRUCTURAL RULES (implemented in Python, not regex)
 # =============================================================================
 # These require analysis of the document's structure or accumulated context.

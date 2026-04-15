@@ -27,6 +27,7 @@ from dataclasses import dataclass
 from typing import List, Optional
 
 from rules_engine import Edit
+from golden_examples import format_examples_for_prompt
 
 
 # -----------------------------------------------------------------------------
@@ -79,6 +80,7 @@ WHAT YOU MUST NEVER CHANGE:
 - Acronyms and their expansions.
 - Technical terminology specific to labour economics.
 
+""" + format_examples_for_prompt() + """
 OUTPUT FORMAT (strict — valid JSON only):
 Return a JSON object of this exact shape:
 {
