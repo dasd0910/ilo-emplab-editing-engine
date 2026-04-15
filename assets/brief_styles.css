@@ -11,16 +11,16 @@
 @font-face { font-family: "Overpass"; src: url("Overpass-Light.ttf") format("truetype"); font-weight: 300; }
 @font-face { font-family: "Overpass"; src: url("Overpass-Bold.ttf") format("truetype"); font-weight: 700; }
 
-/* ---------- ILO brand palette -------------------------------------------- */
+/* ---------- ILO brand palette (exact hex from ILO Brand Hub) ------------- */
 :root {
-    --ilo-navy:        #1A3D82;   /* deep ILO blue (header band) */
-    --ilo-blue:        #1A5FB4;   /* secondary blue (titles, h2) */
-    --ilo-blue-bright: #0066CC;   /* primary text blue */
-    --ilo-yellow:      #FFC800;   /* accent yellow (triangles, divider) */
-    --ilo-red:         #E8002A;   /* red subheads */
-    --ilo-teal:        #D9E8F4;   /* key-points box background */
-    --ilo-grey:        #5a5a5a;
-    --body-text:       #222;
+    --ilo-blue:        #1E2DBE;   /* ILO blue — dominant brand colour */
+    --ilo-dark-blue:   #230050;   /* Dark blue — backgrounds, header band */
+    --ilo-red:         #FA3C4B;   /* Red — subtle highlight alongside blue */
+    --ilo-yellow:      #FFCD2D;   /* Yellow — accent (triangles, dividers) */
+    --ilo-light-blue:  #EBF5FD;   /* Light blue — tints / key-points box */
+    --ilo-white:       #FFFFFF;
+    --body-text:       #1A1A1A;   /* near-black for body copy */
+    --body-muted:      #4F4F4F;
 }
 
 /* ---------- Page --------------------------------------------------------- */
@@ -32,14 +32,14 @@
         content: "▶ ILO brief";
         font-family: "Overpass", sans-serif;
         font-size: 8.5pt;
-        color: var(--ilo-navy);
+        color: var(--ilo-dark-blue);
         font-weight: 700;
     }
     @top-right {
         content: counter(page, decimal-leading-zero);
         font-family: "Noto Sans", sans-serif;
         font-size: 9pt;
-        color: var(--ilo-navy);
+        color: var(--ilo-dark-blue);
     }
 }
 
@@ -63,7 +63,7 @@ p {
     margin: 0 0 0.55em 0;
     text-align: justify;
     hyphens: auto;
-    color: var(--ilo-blue-bright);
+    color: var(--body-text);
 }
 
 /* =========================================================================
@@ -72,10 +72,10 @@ p {
 .cover { padding: 0 15mm; }
 
 .cover-header {
-    background: var(--ilo-navy);
+    background: var(--ilo-dark-blue);
     margin: 0 -15mm 7mm -15mm;
     padding: 9mm 15mm 9mm 15mm;
-    color: white;
+    color: var(--ilo-white);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -87,7 +87,7 @@ p {
     width: auto;
 }
 .brief-pill {
-    background: var(--ilo-blue-bright);
+    background: var(--body-text);
     color: white;
     font-family: "Overpass", sans-serif;
     font-size: 9pt;
@@ -154,17 +154,18 @@ p {
 
 /* ---------- Key points box ---------------------------------------------- */
 .key-points-box {
-    background: var(--ilo-teal);
+    background: var(--ilo-light-blue);
     margin: 0 0 8mm 0;
     page-break-inside: avoid;
 }
 .key-points-header {
     background: var(--ilo-yellow);
-    color: var(--ilo-navy);
+    color: var(--ilo-dark-blue);
     font-family: "Overpass", sans-serif;
     font-weight: 700;
-    font-size: 9.5pt;
-    padding: 1.5mm 4mm;
+    font-size: 10pt;
+    padding: 2mm 4mm;
+    text-transform: none;   /* brand rule: no all-caps in headings */
 }
 .key-points-body {
     padding: 3mm 4mm 3mm 4mm;
@@ -180,7 +181,7 @@ p {
     position: relative;
     padding-left: 5mm;
     margin-bottom: 2mm;
-    color: var(--ilo-blue-bright);
+    color: var(--body-text);
     font-size: 8.5pt;
     line-height: 1.35;
     break-inside: avoid;
@@ -210,8 +211,8 @@ p {
     font-size: 16pt;
     color: var(--ilo-blue);
     margin: 6mm 0 2mm 0;
-    padding-bottom: 1mm;
-    border-bottom: 0.5pt solid var(--ilo-blue);
+    padding-bottom: 1.5mm;
+    border-bottom: 0.8pt solid var(--ilo-yellow);
     page-break-after: avoid;
 }
 .doc-body h2 .h2-triangle {
@@ -219,7 +220,7 @@ p {
     margin-right: 2mm;
 }
 .doc-body h3 {
-    font-family: "Noto Sans", sans-serif;
+    font-family: "Overpass", sans-serif;
     font-weight: 700;
     font-size: 11pt;
     color: var(--ilo-red);
@@ -236,7 +237,7 @@ p {
     position: relative;
     padding-left: 4mm;
     margin-bottom: 1mm;
-    color: var(--ilo-blue-bright);
+    color: var(--body-text);
 }
 .doc-body ul.triangle-bullets li::before {
     content: "▶";
@@ -258,7 +259,7 @@ body.generic-brief .doc-body {
 
 /* FACT SHEET — single column, slightly different palette */
 body.fact-sheet .doc-body { column-count: 1; }
-body.fact-sheet .cover-title { color: var(--ilo-blue-bright); }
-body.fact-sheet .cover-header { background: var(--ilo-blue-bright); }
-body.fact-sheet .doc-body h2 { color: var(--ilo-blue-bright); }
-body.fact-sheet .doc-body h3 { color: var(--ilo-navy); }
+body.fact-sheet .cover-title { color: var(--body-text); }
+body.fact-sheet .cover-header { background: var(--body-text); }
+body.fact-sheet .doc-body h2 { color: var(--body-text); }
+body.fact-sheet .doc-body h3 { color: var(--ilo-dark-blue); }
