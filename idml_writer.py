@@ -72,6 +72,17 @@ TEMPLATES: Dict[str, TemplateProfile] = {
         bullet_style="Bullet point level 2%3aBullet point level 2 black",
         matches_body_keyword="Fact sheet A4 - Body text",
     ),
+    # Youth Country Brief (MCF) — no dedicated IDML template exists; we reuse
+    # the Policy Brief IDML as the closest structural match. The PDF output
+    # handles MCF-specific branding (dark-blue KP header, MCF logo, red triangles).
+    "Youth Country Brief (MCF)": TemplateProfile(
+        template_file="Policy Brief Digital [RGB template].idml",
+        body_style="Briefing A4 - Body",
+        h2_style="Briefing A4 - Sub heading",
+        h3_style="Briefing A4 - Crosshead",
+        bullet_style="Briefing A4 - Bullet",
+        matches_body_keyword="Briefing A4 - Body",
+    ),
 }
 
 

@@ -144,9 +144,18 @@ uploaded_file = st.file_uploader(
 st.subheader("Step 2 — Select the brief type")
 brief_type = st.selectbox(
     "Which ILO template should this publication use?",
-    options=["Generic Brief", "Policy Brief", "Fact Sheet"],
+    options=[
+        "Generic Brief",
+        "Policy Brief",
+        "Fact Sheet",
+        "Youth Country Brief (MCF)",
+    ],
     index=0,
-    help="Determines the InDesign template used for typesetting (Phase 4).",
+    help=(
+        "Determines the layout/branding. 'Youth Country Brief (MCF)' is the "
+        "ILO Mastercard Foundation Youth Employment Policy Brief format "
+        "(blue header with MCF logo, red accents)."
+    ),
 )
 
 

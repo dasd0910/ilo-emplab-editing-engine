@@ -261,6 +261,166 @@ body.generic-brief .doc-body {
     column-count: 1;
 }
 
+/* =========================================================================
+   YCB — MASTERCARD FOUNDATION YOUTH COUNTRY BRIEF
+   Modelled on the real ILO/MCF Ethiopia publication.
+   Key differences vs. policy-brief default:
+     - Red triangles (not yellow)
+     - Dark-blue key-points header with white text (not yellow)
+     - Blue header band with ILO logo LEFT + MCF logo RIGHT
+     - "ILO Youth Country Briefs" as prominent series label in band
+     - Red angular accent on right edge
+     - Running page header: red "▶ ILO Brief" + country name
+   ========================================================================= */
+
+@page ycb-page {
+    size: A4;
+    margin: 14mm 15mm 16mm 15mm;
+    @top-left {
+        content: "▶ ILO Brief";
+        font-family: "Overpass", sans-serif;
+        font-size: 9pt;
+        color: var(--ilo-red);
+        font-weight: 700;
+    }
+    @top-right {
+        content: counter(page);
+        font-family: "Noto Sans", sans-serif;
+        font-size: 9pt;
+        color: var(--ilo-dark-blue);
+    }
+}
+body.ycb { page: ycb-page; }
+@page ycb-page:first {
+    margin: 0 0 16mm 0;
+    @top-left { content: ""; }
+    @top-right { content: ""; }
+}
+
+body.ycb .cover { padding: 0 15mm; }
+
+/* Header band: blue with ILO left, MCF right, red diagonal right-edge accent */
+.cover-header-ycb {
+    background: var(--ilo-blue);
+    margin: 0 -15mm 0 -15mm;
+    padding: 10mm 15mm 14mm 15mm;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    min-height: 30mm;
+    color: var(--ilo-white);
+    overflow: hidden;
+}
+.ilo-logo-ycb {
+    height: 18mm;
+    width: auto;
+}
+.mcf-logo-ycb {
+    height: 22mm;
+    width: auto;
+    background: var(--ilo-white);
+    padding: 2mm 3mm;
+}
+/* Red triangular accent in the bottom-right of the header band,
+   peeking beneath/beside the MCF logo — matches the published template. */
+.ycb-accent {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 55mm;
+    height: 10mm;
+    background: linear-gradient(
+        to top right,
+        transparent 50%,
+        var(--ilo-red) 50%
+    );
+    z-index: 0;
+}
+.ilo-logo-ycb, .mcf-logo-ycb { position: relative; z-index: 1; }
+
+/* "ILO Youth Country Briefs" series band (still on blue) */
+.ycb-series-band {
+    background: var(--ilo-blue);
+    color: var(--ilo-white);
+    margin: 0 -15mm 0 -15mm;
+    padding: 2mm 15mm 9mm 15mm;
+    font-family: "Overpass", sans-serif;
+    font-weight: 700;
+    font-size: 24pt;
+    line-height: 1.1;
+}
+.ycb-series-band .ycb-triangle {
+    color: var(--ilo-red);
+    margin-right: 4mm;
+    font-size: 22pt;
+}
+
+.ycb-meta {
+    margin-top: 8mm;
+    margin-bottom: 6mm;
+}
+.ycb-date {
+    font-family: "Noto Sans", sans-serif;
+    font-size: 9.5pt;
+    color: var(--body-text);
+    margin-bottom: 3mm;
+    letter-spacing: 0.2pt;
+}
+.ycb-title {
+    font-family: "Overpass", sans-serif;
+    font-size: 28pt;
+    font-weight: 700;
+    color: var(--ilo-blue);
+    margin: 0 0 4mm 0;
+    line-height: 1.05;
+}
+
+/* YCB Key-points box: dark blue header strip, white text, red triangle bullets */
+.ycb-kp {
+    background: var(--ilo-light-blue);
+    margin: 0 0 8mm 0;
+}
+.ycb-kp-header {
+    background: var(--ilo-dark-blue);
+    color: var(--ilo-white);
+    font-family: "Overpass", sans-serif;
+    font-weight: 700;
+    font-size: 11pt;
+    padding: 2mm 4mm;
+    position: relative;
+}
+.ycb-kp-header::before {
+    content: "▶";
+    color: var(--ilo-red);
+    margin-right: 2mm;
+}
+.ycb-kp .key-points-body li::before {
+    color: var(--ilo-red);   /* red triangles, not yellow, in YCB */
+}
+
+/* YCB body: red h2 triangles + blue text */
+body.ycb .doc-body h2 {
+    font-family: "Overpass", sans-serif;
+    font-weight: 700;
+    font-size: 18pt;
+    color: var(--ilo-blue);
+    border-bottom: 0.8pt solid var(--ilo-blue);
+    padding-bottom: 1.5mm;
+    margin: 7mm 0 3mm 0;
+}
+body.ycb .doc-body h2 .h2-triangle {
+    color: var(--ilo-red);
+    margin-right: 2mm;
+}
+body.ycb .doc-body h3 {
+    color: var(--ilo-red);
+    font-family: "Overpass", sans-serif;
+}
+body.ycb .doc-body ul.triangle-bullets li::before {
+    color: var(--ilo-red);
+}
+
 /* FACT SHEET — single column, slightly different palette */
 body.fact-sheet .doc-body { column-count: 1; }
 body.fact-sheet .cover-title { color: var(--body-text); }

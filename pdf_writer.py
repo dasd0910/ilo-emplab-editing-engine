@@ -121,17 +121,38 @@ def _blocks_from_doc(doc: Document) -> List[Block]:
 # Extract title / subtitle heuristically — first H2-like block becomes title
 # -----------------------------------------------------------------------------
 def _extract_title(blocks: List[Block]) -> tuple[str, Optional[str], List[Block]]:
+    """Extract title + subtitle from the first plausible heading.
+
+    Strategy:
+      1. Try the first heading-styled (h2/h3) block.
+      2. If no heading exists, try the very first non-empty block if it's
+         short enough to be a title (<150 chars) and doesn't start a list.
+    """
     title = "ILO Brief"
     subtitle: Optional[str] = None
     rest = blocks[:]
+
+    # Strategy 1: find a heading-styled block
     for i, b in enumerate(rest):
-        if b.kind in ("h2", "h3") and len(b.text) < 120:
+        if b.kind in ("h2", "h3") and len(b.text) < 150:
             title = b.text
             rest = rest[:i] + rest[i + 1:]
             break
-    if rest and rest[0].kind == "h3" and len(rest[0].text) < 140:
-        subtitle = rest[0].text
-        rest = rest[1:]
+    else:
+        # Strategy 2: fall back to the first short paragraph (for docs with
+        # no heading styles — very common when authors just use Normal).
+        for i, b in enumerate(rest):
+            if b.text.strip() and len(b.text) < 150 and b.kind != "bullet":
+                title = b.text.strip()
+                rest = rest[:i] + rest[i + 1:]
+                break
+
+    # Optional subtitle: next heading or short para
+    if rest:
+        first = rest[0]
+        if first.kind == "h3" and len(first.text) < 180:
+            subtitle = first.text
+            rest = rest[1:]
     return title, subtitle, rest
 
 
@@ -139,6 +160,20 @@ def _extract_title(blocks: List[Block]) -> tuple[str, Optional[str], List[Block]
 # Extract "Key points" — a heading named exactly that, followed by bullets
 # or short paragraphs until the next heading.
 # -----------------------------------------------------------------------------
+def _strip_ycb_prefix(title: str) -> str:
+    """For YCB briefs, strip 'ILO Youth Country Briefs:' / 'ILO Brief' prefixes
+    so the country name stands alone as the title (matches real publication)."""
+    t = title.strip()
+    # Common prefixes
+    for prefix in [
+        r'^ILO Youth Country Briefs?\s*[:\-–—]\s*',
+        r'^ILO Brief\s*[:\-–—]?\s*',
+        r'^Youth Country Briefs?\s*[:\-–—]\s*',
+    ]:
+        t = re.sub(prefix, '', t, flags=re.IGNORECASE).strip()
+    return t if t else title
+
+
 def _extract_key_points(blocks: List[Block]) -> tuple[List[str], List[Block]]:
     """Pull out the Key points section.
 
@@ -212,17 +247,29 @@ def build_pdf(cleaned_doc: Document, brief_type: str,
         "Generic Brief": "generic-brief",
         "Policy Brief": "policy-brief",
         "Fact Sheet": "fact-sheet",
+        "Youth Country Brief (MCF)": "ycb",
     }.get(brief_type, "generic-brief")
 
     series_label = {
         "Generic Brief": "ILO Brief",
         "Policy Brief": "ILO Policy Brief",
         "Fact Sheet": "ILO Fact Sheet",
+        "Youth Country Brief (MCF)": "ILO Youth Country Briefs",
     }.get(brief_type, "ILO Brief")
 
     # Classify and split title / body
     all_blocks = _blocks_from_doc(cleaned_doc)
     title, subtitle, body_blocks = _extract_title(all_blocks)
+    # For YCB: the country name is the title; strip any series prefix like
+    # "ILO Youth Country Briefs:" or "ILO Brief" — those live in the header band.
+    if brief_type == "Youth Country Brief (MCF)":
+        title = _strip_ycb_prefix(title)
+        # Drop further "ILO Brief"/"ILO Youth Country Briefs" paragraphs that
+        # duplicate the header band.
+        body_blocks = [b for b in body_blocks
+                       if b.text.strip() not in
+                       {"ILO Brief", "ILO Youth Country Briefs"}
+                       and not re.match(r'^\s*ILO Youth Country Briefs\b', b.text)]
     key_points, body_blocks = _extract_key_points(body_blocks)
 
     # Render HTML via Jinja2

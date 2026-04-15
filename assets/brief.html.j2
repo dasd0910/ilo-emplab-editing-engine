@@ -6,9 +6,59 @@
 </head>
 <body class="{{ body_class }}">
 
-<!-- ============================================================ -->
-<!-- COVER PAGE                                                   -->
-<!-- ============================================================ -->
+{% if body_class == "ycb" %}
+<!-- ========================================================================
+     MASTERCARD FOUNDATION YOUTH COUNTRY BRIEF layout
+     (modeled on the real Ethiopia publication)
+     ======================================================================== -->
+<div class="cover">
+    <div class="cover-header-ycb">
+        <img class="ilo-logo-ycb" src="ilo_logo.png" alt="International Labour Organization">
+        <img class="mcf-logo-ycb" src="mcf_logo.png" alt="In partnership with Mastercard Foundation">
+        <div class="ycb-accent"></div>
+    </div>
+
+    <div class="ycb-series-band">
+        <span class="ycb-triangle">▶</span>{{ series_label }}
+    </div>
+
+    <div class="ycb-meta">
+        <div class="ycb-date">{{ date_label }}</div>
+        <h1 class="ycb-title">{{ title }}</h1>
+    </div>
+
+    {% if key_points %}
+    <div class="key-points-box ycb-kp">
+        <div class="key-points-header ycb-kp-header">Key points</div>
+        <div class="key-points-body">
+            <ul>
+                {% for kp in key_points %}
+                <li>{{ kp }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<main class="doc-body ycb-body">
+    {% for block in blocks %}
+        {% if block.kind == "h2" %}
+            <h2><span class="h2-triangle">▶</span>{{ block.text }}</h2>
+        {% elif block.kind == "h3" %}
+            <h3>{{ block.text }}</h3>
+        {% elif block.kind == "bullet" %}
+            <ul class="triangle-bullets"><li>{{ block.text }}</li></ul>
+        {% else %}
+            <p>{{ block.text }}</p>
+        {% endif %}
+    {% endfor %}
+</main>
+
+{% else %}
+<!-- ========================================================================
+     Default (Generic / Policy / Fact Sheet) layout
+     ======================================================================== -->
 <div class="cover">
     <div class="cover-header">
         <img class="ilo-logo-img" src="ilo_logo.png" alt="International Labour Organization">
@@ -43,9 +93,6 @@
     {% endif %}
 </div>
 
-<!-- ============================================================ -->
-<!-- BODY                                                         -->
-<!-- ============================================================ -->
 <main class="doc-body">
     {% for block in blocks %}
         {% if block.kind == "h2" %}
@@ -59,6 +106,8 @@
         {% endif %}
     {% endfor %}
 </main>
+
+{% endif %}
 
 </body>
 </html>
