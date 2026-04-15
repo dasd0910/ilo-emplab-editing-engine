@@ -72,19 +72,21 @@ p {
 .cover { padding: 0 15mm; }
 
 .cover-header {
-    background: var(--ilo-dark-blue);
-    margin: 0 -15mm 7mm -15mm;
-    padding: 9mm 15mm 9mm 15mm;
+    background: var(--ilo-blue);       /* primary ILO blue, NOT dark blue */
+    margin: 0 -15mm 8mm -15mm;
+    padding: 10mm 15mm 10mm 15mm;
     color: var(--ilo-white);
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: relative;
+    min-height: 24mm;
 }
 
 .ilo-logo-img {
-    height: 14mm;
+    height: 16mm;
     width: auto;
+    display: block;
 }
 .brief-pill {
     background: var(--body-text);
@@ -103,23 +105,24 @@ p {
 }
 .cover-title {
     font-family: "Overpass", sans-serif;
-    font-size: 34pt;
+    font-size: 38pt;
     font-weight: 700;
     color: var(--ilo-blue);
     line-height: 1;
     margin: 0;
+    letter-spacing: -0.3pt;
 }
 .cover-title .triangle {
     color: var(--ilo-yellow);
     margin-right: 3mm;
-    font-size: 28pt;
+    font-size: 32pt;
     vertical-align: 1pt;
 }
 
 .cover-divider {
-    height: 1.8mm;
+    height: 2mm;
     background: var(--ilo-yellow);
-    margin: 0 -15mm 6mm -15mm;
+    margin: 0 -15mm 7mm -15mm;
 }
 
 .cover-date {
@@ -157,18 +160,19 @@ p {
     background: var(--ilo-light-blue);
     margin: 0 0 8mm 0;
     page-break-inside: avoid;
+    border-radius: 0.5mm;
 }
 .key-points-header {
     background: var(--ilo-yellow);
     color: var(--ilo-dark-blue);
     font-family: "Overpass", sans-serif;
     font-weight: 700;
-    font-size: 10pt;
-    padding: 2mm 4mm;
-    text-transform: none;   /* brand rule: no all-caps in headings */
+    font-size: 11pt;
+    padding: 1.5mm 4mm;
+    text-transform: none;
 }
 .key-points-body {
-    padding: 3mm 4mm 3mm 4mm;
+    padding: 4mm 5mm 3mm 5mm;
     column-count: 2;
     column-gap: 6mm;
 }
