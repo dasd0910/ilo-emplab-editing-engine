@@ -12,14 +12,24 @@
      (modeled on the real Ethiopia publication)
      ======================================================================== -->
 <div class="cover">
+    <!-- Blue header band: ILO logo left, MCF lockup right.
+         Uses the WHITE MCF logo (white text on transparent) so it sits
+         directly on the blue with no white card, matching the publication. -->
     <div class="cover-header-ycb">
-        <img class="ilo-logo-ycb" src="ilo_logo.png" alt="International Labour Organization">
-        <img class="mcf-logo-ycb" src="mcf_logo.png" alt="In partnership with Mastercard Foundation">
-        <div class="ycb-accent"></div>
-    </div>
+        <img class="ilo-logo-ycb"
+             src="ilo_logo_cropped.png"
+             alt="International Labour Organization">
+        <img class="mcf-logo-ycb"
+             src="mcf_logo_white.png"
+             alt="In partnership with Mastercard Foundation">
 
-    <div class="ycb-series-band">
-        <span class="ycb-triangle">▶</span>{{ series_label }}
+        <!-- Series label sits INSIDE the blue band at the bottom left -->
+        <div class="ycb-series-band">
+            <span class="ycb-triangle">▶</span>{{ series_label }}
+        </div>
+
+        <!-- Red triangular accent at the bottom-right of the blue band -->
+        <div class="ycb-accent"></div>
     </div>
 
     <div class="ycb-meta">

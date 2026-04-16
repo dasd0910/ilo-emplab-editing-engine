@@ -22,12 +22,15 @@ import zipfile
 from copy import deepcopy
 from datetime import datetime, timezone
 from dataclasses import dataclass
-from typing import Dict, List
+from pathlib import Path
+from typing import Dict, List, Optional
 from xml.sax.saxutils import escape as xml_escape
 
 from docx import Document
+from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
+from docx.shared import Inches
 
 from rules_engine import Edit
 
@@ -113,6 +116,41 @@ def _comment_reference_run(cid: int) -> OxmlElement:
 
 
 # -----------------------------------------------------------------------------
+# Brief-specific branding (YCB: MCF logo in top-right of first page)
+# -----------------------------------------------------------------------------
+def _add_mcf_logo_to_first_page_header(doc: Document, mcf_logo_path: Path) -> None:
+    """Insert the 'In partnership with Mastercard Foundation' logo in the
+    top-right of the first page only.
+
+    On the real ILO Youth Country Brief, the MCF logo sits in the top-right of
+    the blue header band on page 1. We replicate that in Word by enabling
+    "different first page" and right-aligning the logo in the first-page header.
+    On pages 2+, no MCF logo appears (matching the publication).
+    """
+    if not mcf_logo_path.exists():
+        return
+
+    section = doc.sections[0]
+    # Enable a separate first-page header/footer so pages 2+ stay clean
+    section.different_first_page_header_footer = True
+    header = section.first_page_header
+
+    # Reuse the default empty paragraph if present; otherwise create one
+    if header.paragraphs:
+        p = header.paragraphs[0]
+        # Clear any runs already in it
+        for r in list(p.runs):
+            r._r.getparent().remove(r._r)
+    else:
+        p = header.add_paragraph()
+
+    p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    run = p.add_run()
+    # ~1.8 inch width keeps the logo clearly visible without dominating the page
+    run.add_picture(str(mcf_logo_path), width=Inches(1.8))
+
+
+# -----------------------------------------------------------------------------
 # Main entry point
 # -----------------------------------------------------------------------------
 def apply_tracked_changes_with_comments(
@@ -120,6 +158,8 @@ def apply_tracked_changes_with_comments(
     edits: List[Edit],
     author: str = "ILO Editing Engine",
     initials: str = "IEE",
+    brief_type: Optional[str] = None,
+    assets_dir: Optional[Path] = None,
 ) -> tuple[bytes, Dict[str, int]]:
     """
     Apply edits as Word tracked changes, each wrapped with a comment explaining
@@ -202,6 +242,14 @@ def apply_tracked_changes_with_comments(
         # Trailing text
         if cursor < len(text):
             para._p.append(_make_run(text[cursor:], first_rpr))
+
+    # Brief-specific branding: MCF logo in top-right for Youth Country Briefs
+    if brief_type == "Youth Country Brief (MCF)" and assets_dir is not None:
+        try:
+            _add_mcf_logo_to_first_page_header(doc, assets_dir / "mcf_logo.png")
+        except Exception:
+            # Branding is cosmetic — never fail the whole export on a logo error
+            pass
 
     _enable_track_changes(doc)
 

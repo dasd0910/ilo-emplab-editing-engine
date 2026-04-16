@@ -275,22 +275,30 @@ body.generic-brief .doc-body {
 
 @page ycb-page {
     size: A4;
-    margin: 14mm 15mm 16mm 15mm;
+    margin: 18mm 15mm 16mm 15mm;
     @top-left {
-        content: "▶ ILO Brief";
+        /* Two-line running header: red "▶ ILO Brief" on line 1,
+           then country name in dark blue on line 2. Country is pulled
+           from a named string set by the .ycb-title element. */
+        content: "▶ ILO Brief\A" string(country-name);
+        white-space: pre;
         font-family: "Overpass", sans-serif;
         font-size: 9pt;
         color: var(--ilo-red);
         font-weight: 700;
+        line-height: 1.25;
     }
     @top-right {
         content: counter(page);
         font-family: "Noto Sans", sans-serif;
-        font-size: 9pt;
+        font-size: 10pt;
         color: var(--ilo-dark-blue);
+        font-weight: 400;
     }
 }
 body.ycb { page: ycb-page; }
+/* Capture the country name for use in the running page header */
+body.ycb .ycb-title { string-set: country-name content(); }
 @page ycb-page:first {
     margin: 0 0 16mm 0;
     @top-left { content: ""; }
@@ -299,81 +307,102 @@ body.ycb { page: ycb-page; }
 
 body.ycb .cover { padding: 0 15mm; }
 
-/* Header band: blue with ILO left, MCF right, red diagonal right-edge accent */
+/* -------------------------------------------------------------------------
+   Blue header band (~85 mm tall ≈ 29% of A4).
+   Logos sit on the top row, series label flush bottom-left inside the band,
+   red triangular accent flush bottom-right.
+   Matches the real Ethiopia publication exactly.
+   ------------------------------------------------------------------------- */
 .cover-header-ycb {
     background: var(--ilo-blue);
     margin: 0 -15mm 0 -15mm;
-    padding: 10mm 15mm 14mm 15mm;
+    padding: 0;
     position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    min-height: 30mm;
+    height: 85mm;
     color: var(--ilo-white);
     overflow: hidden;
 }
+
 .ilo-logo-ycb {
-    height: 18mm;
+    position: absolute;
+    top: 12mm;
+    left: 15mm;
+    height: 20mm;
     width: auto;
+    z-index: 2;
 }
 .mcf-logo-ycb {
-    height: 22mm;
+    position: absolute;
+    top: 9mm;
+    right: 15mm;
+    height: 26mm;
     width: auto;
-    background: var(--ilo-white);
-    padding: 2mm 3mm;
+    z-index: 2;
+    background: transparent;   /* white-text PNG sits directly on blue */
+    padding: 0;
 }
-/* Red triangular accent in the bottom-right of the header band,
-   peeking beneath/beside the MCF logo — matches the published template. */
+
+/* Red triangular accent — sharp V at the far-right bottom of the blue band */
 .ycb-accent {
     position: absolute;
     right: 0;
-    bottom: 0;
-    width: 55mm;
+    bottom: -2mm;
+    width: 90mm;
     height: 10mm;
     background: linear-gradient(
         to top right,
         transparent 50%,
         var(--ilo-red) 50%
     );
-    z-index: 0;
+    z-index: 1;
 }
-.ilo-logo-ycb, .mcf-logo-ycb { position: relative; z-index: 1; }
 
-/* "ILO Youth Country Briefs" series band (still on blue) */
+/* "ILO Youth Country Briefs" — headline INSIDE the blue band, bottom-left */
 .ycb-series-band {
-    background: var(--ilo-blue);
+    position: absolute;
+    left: 15mm;
+    right: 15mm;
+    bottom: 13mm;
     color: var(--ilo-white);
-    margin: 0 -15mm 0 -15mm;
-    padding: 2mm 15mm 9mm 15mm;
     font-family: "Overpass", sans-serif;
     font-weight: 700;
-    font-size: 24pt;
-    line-height: 1.1;
+    font-size: 28pt;
+    line-height: 1.05;
+    z-index: 2;
+    letter-spacing: -0.2pt;
+    margin: 0;
+    padding: 0;
+    background: transparent;
 }
 .ycb-series-band .ycb-triangle {
     color: var(--ilo-red);
     margin-right: 4mm;
-    font-size: 22pt;
+    font-size: 26pt;
 }
 
+/* -------------------------------------------------------------------------
+   White area below the blue band: date, country name, key-points — all fit
+   on page 1 like the reference.
+   ------------------------------------------------------------------------- */
 .ycb-meta {
-    margin-top: 8mm;
-    margin-bottom: 6mm;
+    margin-top: 7mm;
+    margin-bottom: 5mm;
 }
 .ycb-date {
     font-family: "Noto Sans", sans-serif;
-    font-size: 9.5pt;
+    font-size: 10pt;
     color: var(--body-text);
-    margin-bottom: 3mm;
+    margin-bottom: 5mm;
     letter-spacing: 0.2pt;
 }
 .ycb-title {
     font-family: "Overpass", sans-serif;
-    font-size: 28pt;
+    font-size: 34pt;
     font-weight: 700;
     color: var(--ilo-blue);
-    margin: 0 0 4mm 0;
-    line-height: 1.05;
+    margin: 0;
+    line-height: 1.0;
+    letter-spacing: -0.5pt;
 }
 
 /* YCB Key-points box: dark blue header strip, white text, red triangle bullets */

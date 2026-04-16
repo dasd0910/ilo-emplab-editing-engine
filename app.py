@@ -263,6 +263,7 @@ if run_clicked:
         doc_to_edit = Document(io.BytesIO(raw_bytes))
         docx_bytes, result = apply_tracked_changes_with_comments(
             doc_to_edit, edits, author=editor_author, initials="IEE",
+            brief_type=brief_type, assets_dir=APP_ASSETS_DIR,
         )
 
     # Build one clean Document once — shared by IDML and PDF generators
